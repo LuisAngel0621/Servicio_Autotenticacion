@@ -4,6 +4,7 @@ from routes.IniciarSesion import sesion
 from flask_cors import CORS
 from db import db
 from ma import ma
+from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
@@ -11,6 +12,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 CORS(app, supports_credentials=True)
 app.secret_key = 'clavesecreta123'
+
 
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_CONNECTION_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -23,6 +25,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 db.init_app(app)
 ma.init_app(app)
+jwt = JWTManager(app)
 app.register_blueprint(sesion)
 
 with app.app_context():
